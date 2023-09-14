@@ -1,0 +1,28 @@
+{
+  "name": "loginmern",
+  "version": "1.0.0",
+  "description": "login usuarios",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [
+    "server",
+    "login",
+    "usuarios"
+  ],
+  "author": "Frank Mv",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
