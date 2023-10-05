@@ -6,13 +6,11 @@ export const requiredAuth = async (req, res, next)=>{
 
     let { token } = req.cookies;
 
-    if(!token) return res.status(401).json({message:"No token, Authorization Denied"});
+    if(!token) return res.status(401).json({message:"No Token, Authorization Denied"});
 
-    console.log(token);
-
-    jwt.verify(token, TOKEN_SECRET, (err, user)=>{
+    jwt.verify(token, TOKEN_SECRET, (err, usuario)=>{
        if(err) res.status(403).json({message:" Invalid Token "});
-       req.user = user
+       req.user = usuario;
        next();
     });
     

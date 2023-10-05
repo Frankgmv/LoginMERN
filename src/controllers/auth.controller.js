@@ -8,13 +8,14 @@ export const login =  async (req, res) =>{
 
     const userFound = await User.findOne({email})
 
-    if(!userFound) return res.status(400).json({message:"User not found. "});
+    if(!userFound) return res.status(400).json({message:"User not found."});
 
     const isMatch = await bcrypt.compare(password, userFound.password);
 
     if(!isMatch){
         return res.status(400).json({message: "error in credentials"});
     }
+    
     try {
      
         const token = await createTokenAccess({id: userFound._id});
@@ -39,7 +40,7 @@ export const register =  async (req, res) =>{
           username,
           email,
           password:passwordHash
-        })
+        });
         const userSaved = await newUser.save();
         const token = await createTokenAccess({id: userSaved._id});
         res.cookie("token",token)
@@ -63,7 +64,7 @@ export const logout = (req, res) => {
 
 export const profile = async (req, res) =>{
 
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user.id);
 
     if(!user) res.status(400).json({message:"User not found. "})
     

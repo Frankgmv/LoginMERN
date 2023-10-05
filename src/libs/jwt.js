@@ -11,7 +11,7 @@ export function createTokenAccess(payLoad){
             },
             (err, token)=>{
                 if(err) reject('hay un error')
-                resolve(token)
+                resolve(token);
             }
         )
     })
