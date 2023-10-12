@@ -34,6 +34,9 @@ export const login =  async (req, res) =>{
 export const register =  async (req, res) =>{
     const {email, password, username} = req.body
 
+    const userFound = await User.findOne({email})
+    if(userFound) return res.status(400).json(["The email is already in use"])
+
     try {
         const passwordHash = await bcrypt.hash(password, 10)
         const newUser = new User({
