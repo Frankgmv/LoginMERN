@@ -1,7 +1,25 @@
 import User from '../models/user.models.js'
 import bcrypt from "bcryptjs";
 import { createTokenAccess } from '../libs/jwt.js'; 
+import jwt from 'jsonwebtoken';
+import { TOKEN_SECRET } from '../config.js';
 
+export const verifyToken = async (req, res) =>{
+    const {token} = req.cookies
+
+    if(!token) return res.status(401).json({message:"Unauthorized"})
+
+    jwt.verify(token, TOKEN_SECRET, async (err, user)=>{
+        const userFound = await User.findById(user.id);
+        if(!userFound) return res.status(401).json({message:"Unauthorized"})
+        
+        return res.status(200).json({
+            id: userFound.id,
+            username: userFound.username,
+            email:userFound.email      
+        })
+    })
+}
 
 export const login =  async (req, res) =>{
     const {email, password} = req.body
