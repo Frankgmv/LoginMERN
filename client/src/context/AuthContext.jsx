@@ -27,12 +27,10 @@ export const AuthProvider = ({ children }) => {
     const signUp = async (user) => {
         try {
             const res = await registerRequest(user);
-            console.log(res);
             setUser(res.data)
             setIsAuthenticated(true);
         } catch (error) {
             setErrors(error.response.data);
-            console.log(error.response.data);
         }
     }
 
@@ -41,7 +39,6 @@ export const AuthProvider = ({ children }) => {
             const res = await loginRequest(user);
             setIsAuthenticated(true);
             setUser(res.data)
-            console.log(res.data);
         } catch (error) {
 
             if (Array.isArray(error.response.data)) {
@@ -56,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
         if(errors.length > 0){
             const timer = setTimeout(()=>{
-                setErrors([]);
+                setErrors([]);  
             }, 5000);
             return ()=>{clearTimeout(timer)}
         }
@@ -68,28 +65,28 @@ export const AuthProvider = ({ children }) => {
 
         if(!cookies.token){
             setIsAuthenticated(false);
+            setLoading(false);
             return setUser(null);
         }
 
         try {
             const res = await verifyTokenRequest(cookies.token);
-            console.log(res);
 
             if(!res.data){
-                setIsAuthenticated(false)
-                setLoading(false)
+                setIsAuthenticated(false);
+                setLoading(false);
+                return;
             }
-            
             setIsAuthenticated(true);
             setUser(res.data);
-            setLoading(false)
+            setLoading(false) 
             
         } catch (error) {
             setUser(null);
             setIsAuthenticated(false);
             setLoading(false)
         }
-
+        
     }, [])
 
     return (
